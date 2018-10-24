@@ -8,10 +8,12 @@ conn = DataBase()
 #conn = dbConnect.createConnection('./pets.db')
 
 api = API()
-pet = api.getRandomPet()
-petID = pet.id
-conn.addPet(pet)
-conn.getPetByID(petID)
-conn.dropAllTables()
+breeds=api.getBreeds("dog")
+print(breeds)
+#pet = api.getRandomPet()
+# petID = pet.id
+# conn.addPet(pet)
+# conn.getPetByID(petID)
+# conn.dropAllTables()
     #cur.execute(".tables")
 #     cur.execute("ALTER TABLE Pets")

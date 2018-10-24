@@ -1,17 +1,119 @@
 WEBSITE
 	URL = https://www.petfinder.com/developers/api-docs
+	JSON FROMATTER URL: https://jsonformatter.curiousconcept.com
 	
 
 BREED.LIST
-	URL = 
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL =  http://api.petfinder.com/breed.list?key=60565187dd6a139dcfbda7c1743e62d4&{animal=dog&format=json
+	ARGUMENTS: {"key":"string,required", "animal": "string,required", "format":"json"}
+	OUTPUT:
+	{
+		"@encoding":"",
+		"@version":"",
+		"petfinder:{
+			"@xmlns:xsi":"LINK",
+			"breeds":{
+				"breed":[
+					{"$t":"BREED NAME"},{},{},{},{}
+				]
+				"@animal":"ANIMAL"
+			},
+			"header":{
+				"timestamp":{"$t":""},
+				"status":{
+					"message":{"$t":""},
+					"code":{"$t":""},
+				},
+				"version":{"$t":""}
+			}
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}
+	}
 
 PET.GET
-	URL =
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL = http://api.petfinder.com/pet.get?key=60565187dd6a139dcfbda7c1743e62d4&{ID=REQUIRED}&format=json
+	ARGUMENTS: {"key":"string,required", "id": "integer,required", "format":"json"}
+	OUTPUT:
+	{
+		"@encoding":"",
+		"@version":"",
+		"petfinder:{
+			"pet":{
+				"options":{
+					"option":[
+						{"$t":"altered, hasShots,housetrained,etc."},{},{}
+					]
+				},
+				"status":{"$t":"A"},
+				"contact":{
+					"phone":{"$t":""},
+					"state":{"$t":""},
+					"address2":{},
+					"email":{"$t":""},
+					"city":{"$t":""},
+					"zip":{"$t":""},
+					"fax":{},
+					"address1":{}
+				},
+				"age":{"$t":""},
+				"size":{"$t":""},
+				"media":{
+					"photos":{
+						"photo":[
+							{
+								"@size":"",
+								"$t":"IMAGELINK",
+								"@id":"1"
+							},{},{},{},{}
+						]
+					}
+				}
+				"id":{"$t":""},
+				"shelterPetId":{"$t":""},
+				"breeds":{
+					"breed":[
+						{"$t":"BREED"},{},{},{},{}
+					]
+				}
+				"name":{"$t":""},
+				"sex":{"$t":""},
+				"description":{"$t":""},   ***often empty
+				"mix":{"$t":""},
+				"shelterId":{"$t":""},
+				"lastUpdate":{"$t":""},
+				"animal":{"$t":""}
+			},
+			"@xmlns:xsi":"LINK",
+			"header":{
+				"timestamp":{"$t":""},
+				"status":{
+					"message":{"$t":""},
+					"code":{"$t":""}
+				},
+				"version":{"$t":""}
+			},
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}
+	}
+	PET.GET PETLESS RESPONSE
+	{
+		"@xmlns:xsi":"LINK",
+		"header":{
+			"timestamp":{"$t":"YYYY-MM-DDTHH:MM:SSZ"},
+			"status":{
+				"message":{"$t":"shelter opt-out"},
+				"code":{"$t":"300"}
+			},
+			"version":{"$t":""}
+		},
+		"@xsi:noNamespaceSchemaLocation":"LINK"
+	}
+				
+				
+			
 
 PET.GETRANDOM
-	URL =
+	URL = http://api.petfinder.com/pet.getRandom?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
 	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
 
 PET.FIND

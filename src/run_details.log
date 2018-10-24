@@ -1,0 +1,2 @@
+DATABASE has been created and loaded with base tables.
+Calling API @: http://api.petfinder.com/breed.list?key=60565187dd6a139dcfbda7c1743e62d4&animal=dog&format=json

@@ -1,0 +1,36 @@
+WEBSITE
+	URL = https://www.petfinder.com/developers/api-docs
+	
+
+BREED.LIST
+	URL = 
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+PET.GET
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+PET.GETRANDOM
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+PET.FIND
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+SHELTER.FIND
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+SHELTER.GET
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+SHELTER.GETPETS
+	URL =
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+
+SHELTER.LISTBYBREED
+	URL = 
+	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	

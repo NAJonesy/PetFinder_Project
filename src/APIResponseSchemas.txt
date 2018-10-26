@@ -114,25 +114,221 @@ PET.GET
 
 PET.GETRANDOM
 	URL = http://api.petfinder.com/pet.getRandom?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	ARGUMENTS: {"key":"string,required", "animal":"string,optional", "breed":"string,optional", "size":"string,optional", 
+		"sex":"character,optional","location":"string,optional","shelterid":"string,optional","output":"string,optional, default=id", "format":"json"}
+	ARG NOTES: 
+		Animal types: barnyard, bird, cat, dog, horse, reptile, smallfury
+		Size: S,M,L,XL
+		Output: id, basic, full
+	OUTPUT: 
+	(FULL) same as PET.GET
+	(ID){
+		"@encoding":"",
+		"@version":"",
+		"petfinder":{
+			"@xmlns:xsi":"LINK",
+			"petIds":{
+				"id":{"$t",""}
+			}
+			"header":{
+				"timestamp":{"$t":""},
+				"status":{
+					"message":{},
+					"code":{"$t":""}
+				}
+				"version":{"$t",""}
+			}
+		}
+		"@xsi:noNamespaceSchemaLocation":"LINK"
+	}
+
 
 PET.FIND
-	URL =
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL = http://api.petfinder.com/pet.find?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
+	ARGUMENTS: {"key":"string,required", "animal":"string,optional", "breed":"string,optional", "size":"string,optional",
+		"location":"string,required", "age":"string,optional, "offset":"string,optional", "count":"integer,optional,default=25", 
+		"output":"string,optional,default=basic", "format":"json"}
+	ARG NOTES: 
+		Animal types: barnyard, bird, cat, dog, horse, reptile, smallfury
+		Size: S,M,L,XL
+		Age: Baby, Young, Adult, Senior
+		Output: Basic = no description, full= includes description
+		(basic){
+			"@encoding":"",
+			"@version":"",
+			"petfinder":{
+				"@xmlns:xsi":"LINK",
+				"lastOffset":{"$t",""}
+				"pets":{
+					"pet":[
+						{
+							"options":{
+								"option":[
+									{"$t":"altered"},{}
+								]
+							}
+							"status":{"$t":"A"},
+							"contact":{
+								"phone":{"$t":""},
+								"state":{"$t":""},
+								"address2":{},
+								"email":{"$t":""},
+								"city":{"$t":""},
+								"zip":{"$t":""},
+								"fax":{"$t":""},
+								"address1":{"$t":""}
+							}
+							"age":{"$t":""},
+							"size":{"$t":""},
+							"media":{
+								"photos":{
+									"photo":[
+										{"@size":"","$t":"LINK","@id":""},{},{}
+									]
+								}
+							},
+							"id":{"$t":""},
+							"shelterPetId":{},
+							"breeds":{
+								"breed":{"$t":""}
+							}
+							"name":{"$t":""},
+							"sex":{"$t":""},
+							"description":{"$t":""},
+							"mix":{"$t":""},
+							"shelterId":{"$t":""},
+							"lastUpdate":{"$t":""},
+							"animal":{"$t":""}
+						},{},{},{},{}...
+					]
+				}
+				"header":{
+					"timestamp":{"$t":""},
+					"status":{
+						"message":{},
+						"code":{"$t":""}
+					}
+					"version":{"$t",""}
+				}
+			}
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}				
+						
 
 SHELTER.FIND
-	URL =
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL = http://api.petfinder.com/shelter.find?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
+	ARGUMENTS: {"key":"string,required", "location":"string,required", "name":"string,optional if location given", 
+		"offset":"integer,optional","count":"integer,optional", "format":"json"}
+	ARG NOTES: Location is zip code OR city and state 
+	OUTPUT:
+	{
+		"@encoding":"",
+		"@version":"",
+		"petfinder":{
+			"@xmlns:xsi":"LINK",
+			"lastOffset":{"$t",""},
+			"shelters":{
+				"shelter":[
+					{
+						"country":{"$t",""},
+						"longitude":{"$t",""},
+						"name":{"$t",""},
+						"phone":{"$t",""},
+						"state":{"$t",""},
+						"address2":{"$t",""},
+						"email":{"$t",""},
+						"city":{"$t",""},
+						"zip":{"$t",""},
+						"fax":{"$t",""},
+						"latitude":{"$t",""},
+						"id":{"$t",""},
+						"address1":{"$t",""}
+					},{},{},{},{}
+				]
+			}
+			"header":{
+					"timestamp":{"$t":""},
+					"status":{
+						"message":{},
+						"code":{"$t":""}
+					}
+					"version":{"$t",""}
+				}
+			}
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}
+						
 
 SHELTER.GET
-	URL =
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL = http://api.petfinder.com/shelter.get?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
+	ARGUMENTS: {"key":"string,required", "id":"string,required", "format":"json"}
+	OUTPUT:
+	{
+		"@encoding":"",
+		"@version":"",
+		"petfinder":{
+			"@xmlns:xsi":"LINK",
+			"shelter":{
+				"country":{"$t",""},
+				"longitude":{"$t",""},
+				"name":{"$t",""},
+				"phone":{"$t",""},
+				"state":{"$t",""},
+				"address2":{"$t",""},
+				"email":{"$t",""},
+				"city":{"$t",""},
+				"zip":{"$t",""},
+				"fax":{"$t",""},
+				"latitude":{"$t",""},
+				"id":{"$t",""},
+				"address1":{"$t",""}
+			},
+			"header":{
+					"timestamp":{"$t":""},
+					"status":{
+						"message":{},
+						"code":{"$t":""}
+					}
+					"version":{"$t",""}
+				}
+			}
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}
 
 SHELTER.GETPETS
-	URL =
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
+	URL = http://api.petfinder.com/shelter.getPets?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
+	ARGUMENTS: {"key":"string,required", "id":"string,required", "status":"character,optional,default=A", "offset":"integer,optional",
+		 "count":"integer,optional", "output":"string,optional,default=basic", "format":"json"}
+	ARG NOTES:
+		Status: A=adoptable, H=hold, P=pending, X=adopted/removed
+		Output: id, basic, full
+		(BASIC) = SAME AS PET.FIND
+		
 
 SHELTER.LISTBYBREED
-	URL = 
-	ARGUMENTS: {"key":"string,required", "id": XX, "status":"XX", "offset":"XXX", "count":"XXX", "output":"XXX", "format":"XXX"}
-	
+	URL = http://api.petfinder.com/shelter.listByBreed?key=60565187dd6a139dcfbda7c1743e62d4&{ARGS}&format=json
+	ARGUMENTS: {"key":"string,required", "animal":"string,required", "breed":"string,required", "offset":"integer,optional,default=0", 
+		"count":"integer,optional,default=25", "format":"json"}
+	ARG NOTES:
+		Animal types: barnyard, bird, cat, dog, horse, reptile, smallfury
+	OUTPUT:
+	(NO SHELTERS){
+		"@encoding":"",
+		"@version":"",
+		"petfinder":{
+			"@xmlns:xsi":"LINK",
+			"shelters":{},
+			"header":{
+					"timestamp":{"$t":""},
+					"status":{
+						"message":{},
+						"code":{"$t":"100"}
+					}
+					"version":{"$t",""}
+				}
+			}
+			"@xsi:noNamespaceSchemaLocation":"LINK"
+		}
+	}
+	(WITH RESULTS){
+		find breed that works. Have yet to find one...

@@ -1,0 +1,30 @@
+{
+    "@encoding":"iso-8859-1",
+    "@version":"1.0",
+    "petfinder":{
+        "@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+        "shelter":{
+            "country":{"$t":"US"},
+            "longitude":{"$t":"-84.1586"},
+            "name":{"$t":"Paw Patrol"},
+            "phone":{},"state":{"$t":"OH"},
+            "address2":{},
+            "email":{"$t":"adoptions@pawpatroldayton.com"},
+            "city":{"$t":"Kettering"},
+            "zip":{"$t":"45429"},
+            "fax":{},
+            "latitude":{"$t":"39.685"},
+            "id":{"$t":"OH1158"},
+            "address1":{}
+        },
+        "header":{
+            "timestamp":{"$t":"2018-10-25T21:36:10Z"},
+            "status":{
+                "message":{},
+                "code":{"$t":"100"}
+            },
+            "version":{"$t":"0.1"}
+        },
+        "@xsi:noNamespaceSchemaLocation":"http://api.petfinder.com/schemas/0.9/petfinder.xsd"
+    }
+}

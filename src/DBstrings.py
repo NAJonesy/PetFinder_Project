@@ -44,9 +44,6 @@ class DBstrings:
             Name text NOT NULL,\
             Favorites text NOT NULL);"
 
-def dropTableQuery(table):
-    return "DROP TABLE {};".format(table)
-
 
 
 

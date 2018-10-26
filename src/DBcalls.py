@@ -102,10 +102,10 @@ class DataBase:
     def dropAllTables(self):
         with self.conn:
             cur=self.conn.cursor()
-            cur.execute(dropTableQuery("Contacts"))
-            cur.execute(dropTableQuery("Pets"))
-            cur.execute(dropTableQuery("Shelters"))
-            cur.execute(dropTableQuery("Users"))
+            cur.execute("DROP TABLE Contacts")
+            cur.execute("DROP TABLE Pets")
+            cur.execute("DROP TABLE Shelters")
+            cur.execute("DROP TABLE Users")
             logger.detail.warn("ALL TABLES DROPPED FROM Pets.db!")
 
     def cleanAllTables(self):

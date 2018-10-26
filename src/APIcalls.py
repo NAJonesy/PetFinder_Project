@@ -27,10 +27,13 @@ class API():
         return pet
 
     
-    def getRandomPet(self,variables={}):
+    def getRandomPet(self,variables={"output":"full"}):
         json = API.getJson(self,'pet.getRandom',variables)
-        id = json["petIds"]["id"]["$t"]
-        pet = API.getPet(self,id)
+        pet = ''
+        if 'pet' in json:
+            pet = Pet(json=json['pet'])
+        else:
+            logger.detail.warning("No 'pet' in returned json.\n{0}".format(json))
         return pet
 
 

@@ -1,4 +1,4 @@
-from common import *
+from common import getJsonAttribute, getMailingAddress
 from logger import logger
 
 #TO DO: HANDLE no pet in JSON error

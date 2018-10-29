@@ -17,7 +17,7 @@ class DBstrings:
     contactTable = "CREATE TABLE IF NOT EXISTS Contacts(\
             ID integer PRIMARY KEY AUTOINCREMENT,\
             Phone text NOT NULL,\
-            Email text NOT NULL,\
+            Email text UNIQUE NOT NULL,\
             Address text NOT NULL,\
             City text NOT NULL,\
             State text NOT NULL,\
@@ -27,7 +27,7 @@ class DBstrings:
             ID text PRIMARY KEY,\
             Name text NOT NULL,\
             Phone text NOT NULL,\
-            Email text NOT NULL,\
+            Email text UNIQUE NOT NULL,\
             Address text NOT NULL,\
             City text NOT NULL,\
             State text NOT NULL,\
@@ -38,9 +38,9 @@ class DBstrings:
 
     usersTable = "CREATE TABLE IF NOT EXISTS Users(\
             ID text PRIMARY KEY,\
-            Userame text NOT NULL,\
+            Username text UNIQUE NOT NULL,\
             Password text NOT NULL,\
-            Email text NOT NULL,\
+            Email text UNIQUE NOT NULL,\
             Name text NOT NULL,\
             Favorites text NOT NULL);"
 

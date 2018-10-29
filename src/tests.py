@@ -15,7 +15,9 @@ def makeChewy():
         petData = json.load(json_file)
     with open(chewyShelterFile) as json_file:
         shelterData = json.load(json_file)
-    chewy = Pet(petData['petfinder']['pet'], shelter=Shelter(json=shelterData))
+    chewyShelter = Shelter(json=shelterData['petfinder']['shelter'])
+    petData = petData['petfinder']['pet']
+    chewy = Pet(petData, shelter=chewyShelter)
     return chewy
 
 # +++++++++++++++++++++++++++++ Testing Variables +++++++++++++++++++++++++++++++++ #
@@ -27,6 +29,7 @@ testShelter = Shelter()
 
 # ++++++++++++++++++++++++++++ API TESTS +++++++++++++++++++++++++++++++++++++++++++ #
 def getBreedsTest():
+    logger.detail.debug("getBreedsTest has started")
     response = testConnection.getBreeds("dog")
     assert "Collie" in response, "APIcalls 'getBreeds' error."
 
@@ -117,23 +120,65 @@ def createDataBaseTest():
 
 def addPetToDataBaseTest():
     testDB.addPet(chewy)
-    pass
+    with testDB.conn:
+        cur= testDB.conn.cursor()
+        cur.execute("Select * from Pets where Name = \"Chewbacca\"")
+        results = cur.fetchall()
+    if(results != []):
+        pet = results[0]
+        assert str(pet[0]) == str(chewy.id), "testPet ID data does not match Chewy. Database: {}".format(pet[0])
+        assert pet[1] == "Chewbacca", "testPet name does not match Chewy. Database: {}".format(pet[1])
+    else:
+        logger.detail.warning("No results coming from Pets table in database.")
+   
 def addShelterToDataBaseTest():
     testDB.addShelter(chewy.shelter)
-    pass
+    with testDB.conn:
+        cur= testDB.conn.cursor()
+        cur.execute("Select * from Shelters where City = \"Kettering\"")
+        results = cur.fetchall()
+    if(results != []):
+        shelter = results[0]
+        assert str(shelter[0]) == str(chewy.shelter.id), "testShelter ID data does not match ChewyShelter. Database: {}".format(shelter[0])
+        assert shelter[1] == "Paw Patrol", "testShelter name data does not match ChewyShelter."
+    else:
+        logger.detail.warning("No results coming from Shelters table in database.")
+
 def addUserToDataBaseTest():
-    pass
+    testDB.addUser("test","test","test@test.com", "test admin")
+    with testDB.conn:
+        cur= testDB.conn.cursor()
+        cur.execute("Select * from Users where Username = \"test\"")
+        results = cur.fetchall()
+    if(results != []):
+        user = results[0]
+        assert user[1] == "test", "User username data does not match test credentials."
+        assert user[2] == "test", "User password data does not match test credentials."
+        assert user[3] == "test@test.com", "User email data does not match test credentials."
+    else:
+        logger.detail.warning("No results coming from Users table in database.")
 
 def loginTest():
-    pass
+    result = testDB.login("test","test")
+    assert result == True, "Login does not work properly."
 
 def getEntryFromTableTests():
     pass
 
 def tableCleaningTest():
-    pass
+    testDB.cleanAllTables()
+    with testDB.conn:
+        cur = testDB.conn.cursor()
+        cur.execute("Select * from Pets")
+        petRows = cur.fetchall()
+        cur.execute("select * from Shelters")
+        shelterRows = cur.fetchall()
+        
+    assert petRows == [], "Pets table rows are not being deleted."
+    assert shelterRows == [], "Shelters table rows are not being deleted."
 
 def tableDroppingTest():
+    testDB.dropAllTables()
     pass
 
 def DataBaseTests():

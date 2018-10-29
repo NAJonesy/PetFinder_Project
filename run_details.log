@@ -1,9 +1,0 @@
-DATABASE has been created and loaded with base tables.
-Calling API @: http://api.petfinder.com/pet.getRandom?key=60565187dd6a139dcfbda7c1743e62d4&format=json
-Calling API @: http://api.petfinder.com/pet.get?key=60565187dd6a139dcfbda7c1743e62d4&id=42618831&format=json
-Missing attribute: phone
-{'phone': {}, 'state': {'$t': 'VA'}, 'address2': {'$t': 'P.O. Box 7261'}, 'email': {'$t': 'hart90office@gmail.com'}, 'city': {'$t': 'Fairfax Station'}, 'zip': {'$t': '22039'}, 'fax': {}, 'address1': {'$t': 'www.hart90.org'}}
-Contact added to database.
-INSERT INTO Pets VALUES("42618831", "Phoebe S", "Young", "Dog", "Phoebe is a friendly, playful girl who seems to love everyone and is very even-tempered. She came to HART from South Carolina with her eight puppies. She was a wonderful, attentive mother and is ready for her own forever home now. Phoebe got along well with the other dogs in her SC foster home and played well with them, and she also does well with meeting new dogs. Her favorite things are meeting new people, playing with toys (especially rope toys), and snuggling up next to her people for belly rubs. She is great with the kids in her foster home and is happy to play with them or will play on her own when no one is available or wants to play. She does great in a crate and is house trained. She hasn't shown interest in chewing on things other than her toys. Please let us know if you are interested in meeting this sweetheart! For more information, please see our website listing for Phoebe S or contact kmacdonald.hart@gmail.com . To read about our adoption procedures and access our on-line application, please visit our website at www.hart90.org . HART adopts to the local DC/VA/MD metro area only.", "no",                         "F", "M", "['Hound']", "[]", "1", "No Shelter ID yet.");
-Phoebe S has been added to database
-ALL TABLES DROPPED FROM Pets.db!

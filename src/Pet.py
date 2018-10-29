@@ -45,9 +45,9 @@ class Pet:
         else:
             logger.detail.warning("Empty pet created. No JSON.")
         # +++++++++++ SHELTER ++++++++++++++ #  
-        self.shelter = "" 
-        if(shelter != ""):
-            self.shelter = shelter
+        self.shelter = shelter
+#         if(shelter != ""):
+#             self.shelter = Shelter(shelter)
 
 
     # shelter separated to limit API calls #

@@ -2,6 +2,7 @@ from APIcalls import API
 from Pet import Pet, Shelter
 from DBcalls import DataBase
 from pathlib import Path
+from logger import logger
 import json
 import os.path
 
@@ -23,7 +24,7 @@ def makeChewy():
 # +++++++++++++++++++++++++++++ Testing Variables +++++++++++++++++++++++++++++++++ #
 chewy = makeChewy()
 testConnection = API()
-testDB = DataBase(path='petTesting.db')
+testDB = DataBase(path='PetTesting.db')
 testPet = Pet()
 testShelter = Shelter()
 
@@ -165,6 +166,23 @@ def loginTest():
 def getEntryFromTableTests():
     pass
 
+def addFavoriteTest():
+    testDB.addFavorite("test",chewy)
+    with testDB.conn:
+        cur = testDB.conn.cursor()
+        cur.execute("SELECT * FROM Users WHERE Username = \"test\"")
+        results = cur.fetchall()
+    favorites = list(str(results[0][5]).split(","))
+    assert chewy.id in favorites, "Pet ID not being added to favorites."
+
+def deleteEntryTest():
+    testDB.deleteEntry("Pets", "ID", chewy.id)
+    with testDB.conn:
+        cur = testDB.conn.cursor()
+        cur.execute("SELECT * FROM Pets WHERE ID = {}".format(chewy.id))
+        results = cur.fetchall()
+    assert results == [], "Delete Entry is not working correctly."
+
 def tableCleaningTest():
     testDB.cleanAllTables()
     with testDB.conn:
@@ -188,13 +206,15 @@ def DataBaseTests():
     addUserToDataBaseTest()
     loginTest()
     getEntryFromTableTests()
+    addFavoriteTest()
+    deleteEntryTest()
     tableCleaningTest()
     tableDroppingTest()
 
 # ++++++++++++++++++++++++++++++ MAIN +++++++++++++++++++++++++++++++++++++++++++++#
 
 def main():    
-    #APItests()
+    APItests()
     DataBaseTests()
 
 if __name__ == "__main__":

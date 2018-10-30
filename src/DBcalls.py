@@ -5,7 +5,6 @@ from logger import logger
 from APIcalls import API
 
 
-#TO DO: Add favorites, DBtests, 
 class DataBase:
     DBstrings = DBstrings()
     def __init__(self,path="Pets.db"):
@@ -31,7 +30,7 @@ class DataBase:
                         \"{6}\", \"{7}\", \"{8}\", \"{9}\", \"{10}\", \"{11}\");".format(pet.id, pet.name, pet.age, \
                         pet.animal, pet.description, pet.mix, pet.sex, pet.size,\
                         pet.breeds, pet.photoLinks, contactid, shelterid)
-                logger.detail.info(command)
+                #logger.detail.info(command)
                 cur.execute(command)
                 self.conn.commit()
                 logger.detail.info("{0} has been added to database".format(pet.name))
@@ -96,12 +95,29 @@ class DataBase:
     def login(self,username,password):
         with self.conn:
             cur = self.conn.cursor()
-            cur.execute("SELECT * FROM Users WHERE Username = \"{0}\" and Password= \"{1}\"".format(username,password))
+            cur.execute("SELECT * FROM Users WHERE Username = \"{0}\" and Password= \"{1}\";".format(username,password))
             results = cur.fetchall()
         if results != []:
             return True
         else:
             return False
+        
+    def addFavorite(self,username,pet):
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute("Select Favorites from Users WHERE Username = \"{}\";".format(username))
+            results = cur.fetchall()
+            favorites = list(results[0])
+            favorites.append(pet.id)
+            faveString=""
+            for id in favorites:
+                if id != '':
+                    faveString += id +","
+            print(faveString)
+            cur.execute("UPDATE Users SET Favorites=\"{}\";".format(faveString))
+            self.conn.commit()
+            logger.detail.info("{0} added to {1}'s favorites.".format(pet.name,username))
+        
 #++++++++++++++++ BASE +++++++++++++++++++++++++++#
     def createConnection(self,path="Pets.db"):
         try:
@@ -127,7 +143,7 @@ class DataBase:
             cur.execute("SELECT * FROM {0} WHERE ID = {1};".format(table,id))
             return cur.fetchall()
 
-
+    
 #+++++++++++++++ CLEANING ++++++++++++++++++++++#
     def dropAllTables(self):
         with self.conn:

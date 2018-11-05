@@ -3,29 +3,25 @@ from Pet import *
 import json
 import requests
 from DBcalls import DataBase
+from Outputs import *
+from pathlib import Path
+
 
 #Chewy the test pet :)
 
-#chewy = Pet(Chewbacca.Json)
+def makeChewy():
+    script_location = Path(__file__).absolute().parent
+    chewyFile = script_location / 'Chewbacca.json'
+    chewyShelterFile = script_location / 'ChewyShelter.json'
+    with open(chewyFile) as json_file:
+        petData = json.load(json_file)
+    with open(chewyShelterFile) as json_file:
+        shelterData = json.load(json_file)
+    chewyShelter = Shelter(json=shelterData['petfinder']['shelter'])
+    petData = petData['petfinder']['pet']
+    chewy = Pet(petData, shelter=chewyShelter)
+    return chewy
 
-conn = DataBase()
-#conn = dbConnect.createConnection('./pets.db')
+chewy = makeChewy()
 
-with conn.conn:
-    cur = conn.conn.cursor()
-    cur.execute("Select * from Pets")
-    rows = cur.fetchall()
-    print(rows)
-    
-conn.cleanAllTables()
-api = API()
-#randomPet = api.getRandomPet()
-#breeds=api.getBreeds("dog")
-#print(breeds)
-#pet = api.getRandomPet()
-# petID = pet.id
-# conn.addPet(pet)
-# conn.getPetByID(petID)
-# conn.dropAllTables()
-    #cur.execute(".tables")s
-#     cur.execute("ALTER TABLE Pets")
+singlePetToJSON(chewy)

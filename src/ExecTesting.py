@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 #Chewy the test pet :)
-
+db = DataBase()
 def makeChewy():
     script_location = Path(__file__).absolute().parent
     chewyFile = script_location / 'Chewbacca.json'
@@ -24,4 +24,9 @@ def makeChewy():
 
 chewy = makeChewy()
 
-singlePetToJSON(chewy)
+#singlePetToJSON(chewy)
+db.addPet(chewy)
+
+db.getPetByID(1)
+db.getShelterByID(1)
+db.getContactByID(2)

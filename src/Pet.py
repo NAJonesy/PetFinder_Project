@@ -75,6 +75,7 @@ class Shelter:
         
 class Contact:
     def __init__(self,json=""):
+        self.dbID = ''
         if(json!=""):
             self.phone = getJsonAttribute(json,"phone")
             self.state = getJsonAttribute(json,"state")

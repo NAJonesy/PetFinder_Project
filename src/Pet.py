@@ -12,8 +12,20 @@ class Pet:
             self.id = getJsonAttribute(json,"id")
             self.mix = getJsonAttribute(json,"mix") 
             self.sex = getJsonAttribute(json,"sex")
+            if self.sex.lower() == 'm':
+                self.sex = 'Male'
+            elif self.sex.lower() == 'f':
+                self.sex = 'Female'
             self.shelterid = getJsonAttribute(json,"shelterId")
             self.size = getJsonAttribute(json,"size")
+            if self.size.lower() == 's':
+                self.size = 'Small'
+            elif self.size.lower() == 'm':
+                self.size = 'Medium'
+            elif self.size.lower() == 'l':
+                self.size = 'Large'
+            elif self.size.lower() == 'xl':
+                self.size = 'Extra large'
         # ++++ NAME FILTERING +++ #
             self.name = getJsonAttribute(json,"name")
             self.name = self.name.replace(" - courtesy listing","")

@@ -13,18 +13,17 @@ class Login(QMainWindow):
 
 # -------- Setup --------- #
         db = DataBase()
-        #app = QApplication([])
-        #app.setStyle('Fusion')
+
         self.loginWindow = QWidget()
         self.loginWindow.setWindowTitle('Login to Pet Finder API')
-        self.layout = QGridLayout(self.loginWindow) #loginLayout = 
+        self.loginWindow.setFixedSize(325,170)
+        self.layout = QGridLayout(self.loginWindow) 
 
 # ----------- Header ---------- #
         self.header = QLabel("Login")
         self.header.setFont(QFont("Arial",20))
         self.header.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.header,1,1,1,5)
-        #loginLayout.addWidget(header)
 
 # ----------- Username --------- #
         self.userLabel = QLabel("Username:")
@@ -32,7 +31,6 @@ class Login(QMainWindow):
         self.userEntry = QLineEdit()
         self.layout.addWidget(self.userLabel,2,1)
         self.layout.addWidget(self.userEntry,2,2,1,2)
-        #self.userEntry.returnPressed.connect(lambda: login())
 
 
 # ------------ Password --------- #
@@ -54,7 +52,7 @@ class Login(QMainWindow):
             success = db.login(username,password)
             if success:
                 self.loginWindow.close()
-                GUI()
+                GUI(user=username)
             else: 
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Information)
@@ -63,6 +61,7 @@ class Login(QMainWindow):
                 msg.setWindowTitle("Login error")
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec_()
+                self.passEntry.setText('')
         self.loginBtn.clicked.connect(lambda: login())
         self.layout.addWidget(self.loginBtn,4,2)
         
@@ -71,19 +70,18 @@ class Login(QMainWindow):
             self.loginWindow.close()
             creation = CreateAccount()
             
-
-    
         self.createAccBtn.clicked.connect(lambda: loadCreateAccount())
-        #loginLayout.addWidget(createAccBtn)
         self.layout.addWidget(self.createAccBtn)
 
 # ----------- Guest Link ------------ #
-        self.guestLabel = QLabel()
+        self.guestLabel = QPushButton()
         self.guestLabel.setText('Continue as guest.')
+        self.guestLabel.setFlat(True)
+        self.guestLabel.setStyleSheet('QPushButton {color:blue}')
         def guestMain():
-            print("clicked")
-        #self.guestLabel.setOpenExternalLinks(True)
-        self.guestLabel.linkActivated.connect(lambda: guestMain())
+            self.loginWindow.close()
+            GUI(user = 'guest')
+        self.guestLabel.clicked.connect(lambda: guestMain())
         self.layout.addWidget(self.guestLabel,5,3)
 
 
@@ -91,4 +89,3 @@ class Login(QMainWindow):
 # ------------ Closing --------------- #
         self.loginWindow.setLayout(self.layout)
         self.loginWindow.show()
-        #app.exec_()

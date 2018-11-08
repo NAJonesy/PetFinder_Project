@@ -162,12 +162,9 @@ class DataBase:
             cur = self.conn.cursor()
             cur.execute("SELECT * FROM Users WHERE Username = \"{0}\" and Password= \"{1}\";".format(username,password))
             results = cur.fetchall()
-            #results
         if results != []:
-            print("True")
             return True
         else:
-            print("False")
             return False
         
     def addFavorite(self,username,pet):
@@ -182,7 +179,7 @@ class DataBase:
                 if id != '':
                     faveString += id +","
             print(faveString)
-            cur.execute("UPDATE Users SET Favorites=\"{}\";".format(faveString))
+            cur.execute("UPDATE Users SET Favorites=\"{0}\" WHERE Username = \"{1}\";".format(faveString,username))
             self.conn.commit()
             logger.detail.info("{0} added to {1}'s favorites.".format(pet.name,username))
             
@@ -193,10 +190,12 @@ class DataBase:
             cur.execute("Select Favorites from Users WHERE Username = \"{}\";".format(username))
             results = cur.fetchall()
             favorites = list(results[0])
-            print(favorites)
-            for id in favorites:
-                pet = getPet(id)
-                faves.append(pet)
+            print("Account:",username,"; Favorites:",favorites)
+            if '' not in favorites:
+                for id in favorites:
+                    if id != '':
+                        pet = DataBase.getPetByID(id)
+                        faves.append(pet)
         return faves
     
 #++++++++++++++++ BASE +++++++++++++++++++++++++++#

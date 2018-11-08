@@ -3,6 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from DBcalls import *
 from APIcalls import *
+from GUI import GUI
 import sys
 
 class CreateAccount(QMainWindow):
@@ -66,11 +67,32 @@ class CreateAccount(QMainWindow):
                 email = self.entryCaEmail.text()
                 created = db.addUser(username,password,email,name)
                 if created:
-                    print("created = true")
-                    #load main page and pass user to it
-                    pass
+                    msg = QMessageBox()
+                    msg.setText("Your account has been created.")
+                    msg.setInformativeText("You can now store your favorite pets to your account!")
+                    msg.setWindowTitle("Welcome!")
+                    msg.setStandardButtons(QMessageBox.Ok)
+                    msg.exec_()
+                    self.createAccWindow.close()
+                    GUI(user = username)
                 else:
                     print("Created = false")
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Warning)
+                    msg.setText("Account creation error.")
+                    
+                    dupUsername = False
+                    dupEmail = False
+                    ##check if username or email is dup.
+                    if dupUsername and dupEmail:
+                        msg.setInformativeText("This account already exists!")
+                    elif dupUsername:
+                        msg.setInformativeText("Account with this username already exists!")
+                    elif dupEmail:
+                        msg.setInformativeText("This email is already associated with an account.")
+                    msg.setWindowTitle("Account creation error.")
+                    msg.setStandardButtons(QMessageBox.Ok)
+                    msg.exec_()
                     #error message and retry
                     #an account with that username or email...
                     pass

@@ -9,7 +9,6 @@ def main():
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
     main = Login()
-    #main.show()
     sys.exit(app.exec_())
     
 

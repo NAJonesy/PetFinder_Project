@@ -5,7 +5,6 @@ from logger import logger
 from APIcalls import API
 from Pet import *
 import os.path
-#from Carbon.Aliases import false
 
 
 class DataBase:
@@ -15,6 +14,12 @@ class DataBase:
         DataBase.buildDatabase(self)
 
 #++++++++++++++++ PETS +++++++++++++++++++++#
+    '''
+        Method: addPet
+        Purpose: Checks if the pet is already in the database and if not it adds the pet information into the database
+        Inputs: pet (object)
+        Returns: Nothing.
+    '''
     def addPet(self,pet):
         contactid = DataBase.addContact(self,pet.contact)
         exists = self.alreadyExists("Pets", "ID", pet.id)
@@ -37,7 +42,13 @@ class DataBase:
                 cur.execute(command)
                 self.conn.commit()
                 logger.detail.info("{0} has been added to database".format(pet.name))
-
+    
+    '''
+        Method: getPetByID
+        Purpose: Retrieve a pet from the database with a given pet id
+        Inputs: id (int/string)
+        Returns: pet (object)
+    '''
     def getPetByID(self,id):
         result = self.getEntryByID("Pets",id)
         if result != []:
@@ -65,6 +76,12 @@ class DataBase:
         return pet
 
 #++++++++++++++++ CONTACTS ++++++++++++++++++++#
+    '''
+        Method: addContact
+        Purpose: Checks if the contact is already in the database and if not it adds the pets contact information into the database
+        Inputs: contact (object)
+        Returns: contact's db ID number (int)
+    '''
     def addContact(self,contact):
         exists = self.alreadyExists("Contacts", "Email", contact.email)
         if exists:
@@ -81,7 +98,13 @@ class DataBase:
                 contactid = contactid[0][0]
                 self.conn.commit()
                 return contactid
-
+            
+    '''
+        Method: getContactByID
+        Purpose: get a contact's info from the database
+        Inputs: contact's Database id number
+        Returns: contact (object)
+    '''
     def getContactByID(self,id):
         result = self.getEntryByID("Contacts",id)
         contact = Contact()
@@ -100,6 +123,12 @@ class DataBase:
         return contact
 
 #+++++++++++++++ SHELTERS +++++++++++++++++++++++#
+    '''
+        Method: addShelter
+        Purpose: Checks if shelter is in the database and if it isnt it adds the shelter to the database
+        Inputs: shelter (object)
+        Returns: Nothing.
+    '''
     def addShelter(self,shelter):
         exists = self.alreadyExists("Shelters", "Email", shelter.email)
         if exists:
@@ -114,7 +143,12 @@ class DataBase:
                 self.conn.commit()
                 logger.detail.info("Shelter added to database.")
 
-
+    '''
+        Method: getShelterByID
+        Purpose: get a shelter info from the database
+        Inputs: shelter id number (int/string)
+        Returns: shelter (object)
+    '''
     def getShelterByID(self,id):
         result = self.getEntryByID("Shelters",id)
         shelter = Shelter()
@@ -140,6 +174,12 @@ class DataBase:
 
 
 #++++++++++++++++ USERS ++++++++++++++++++++++++++#
+    '''
+        Method: addUser
+        Purpose: checks if username or email already exist in the database and if not adds new users data
+        Inputs: username (string), password (string), email (string), name (string)
+        Returns: Boolean
+    '''
     def addUser(self,username,password,email,name):
         emailExists = self.alreadyExists("Users", "Email", email)
         usernameExists = self.alreadyExists("Users", "Username", username)
@@ -154,7 +194,13 @@ class DataBase:
                 self.conn.commit()
                 logger.detail.info("{} added to database.".format(name))
                 return True
-
+    
+    '''
+        Method: login    
+        Purpose: Checks given credentials against the Users table in the database
+        Inputs: username (string), passsword (string)
+        Returns: Boolean
+    '''
     def login(self,username,password):
         if username == "" or password == "":
             return False
@@ -166,7 +212,13 @@ class DataBase:
             return True
         else:
             return False
-        
+     
+     '''
+        Method: addFavorite
+        Purpose: Adds a pet's id to a users favorites in the Users table of the database
+        Inputs: username (string), pet (object)
+        Returns: Nothing.
+    '''   
     def addFavorite(self,username,pet):
         with self.conn:
             cur = self.conn.cursor()
@@ -182,7 +234,13 @@ class DataBase:
             cur.execute("UPDATE Users SET Favorites=\"{0}\" WHERE Username = \"{1}\";".format(faveString,username))
             self.conn.commit()
             logger.detail.info("{0} added to {1}'s favorites.".format(pet.name,username))
-            
+     
+     '''
+        Method: getFavorites
+        Purpose: get a list of a user's favorite pets from the database
+        Inputs: username (string)
+        Returns: list of pets <list(object)>
+    '''       
     def getFavorites(self,username):
         faves = list()
         with self.conn:
@@ -199,6 +257,12 @@ class DataBase:
         return faves
     
 #++++++++++++++++ BASE +++++++++++++++++++++++++++#
+    '''
+        Method: createConnection
+        Purpose: Attempt to create a connection with the database
+        Inputs: path (string), defaults to "Pets.db"
+        Returns: connection or None
+    '''
     def createConnection(self,path="Pets.db"):
         try:
             conn = sqlite3.connect(path, timeout=10)
@@ -207,6 +271,12 @@ class DataBase:
             print(e)
         return None
 
+    '''
+        Method: buildDatabase
+        Purpose: Populates a new database with the appropriate tables and fields
+        Inputs: None
+        Returns: None
+    '''
     def buildDatabase(self):
         #check if exists first!!
         if os.path.isfile("Pets.db"):
@@ -228,7 +298,13 @@ class DataBase:
         else:
             self.createConnection()
             self.buildDatabase()
-            
+     
+    '''
+        Method: getEntryByID
+        Purpose: get information from databse with given parameters
+        Inputs: table (string), id (int/string)
+        Returns: Database response
+    '''       
     def getEntryByID(self,table,id):
         with self.conn:
             cur = self.conn.cursor()
@@ -237,6 +313,13 @@ class DataBase:
 
     
 #+++++++++++++++ CLEANING ++++++++++++++++++++++#
+    '''
+        Method: dropAllTables
+        Purpose: This will wipe all of the database information
+        Inputs: None
+        Returns: Nothing
+        *** NOTE: ONLY USED TO RESET DB FOR TESTING
+    '''
     def dropAllTables(self):
         with self.conn:
             cur=self.conn.cursor()
@@ -246,7 +329,13 @@ class DataBase:
             cur.execute("DROP TABLE Users")
             self.conn.commit()
             logger.detail.warn("ALL TABLES DROPPED FROM Pets.db!")
-
+    
+    '''
+        Method: cleanAllTables
+        Purpose: this will wipe all rows from each database table
+        Inputs: None
+        Returns: Nothing
+    '''
     def cleanAllTables(self):
         with self.conn:
             cur=self.conn.cursor()
@@ -256,7 +345,13 @@ class DataBase:
             cur.execute("DELETE FROM Users;")
             self.conn.commit()
             logger.detail.warn("ALL ROWS DELETED FROM ALL Pets.db TABLES!")
-
+    
+    '''
+        Method: deleteEntry
+        Purpose: delete a row from a database table
+        Inputs: table (String), col (String), value( String)
+        Returns: Nothing
+    '''
     def deleteEntry(self, table, col, value):
         with self.conn:
             cur=self.conn.cursor()
@@ -264,7 +359,13 @@ class DataBase:
             cur.execute(command)
             self.conn.commit()
             logger.detail.info("Row with {0} = {1} DELETED from {2} table.".format(col,value,table))
-            
+     
+    '''
+        Method: alreadyExists
+        Purpose: Check if a row with given information is already in a database table 
+        Inputs: table (string), col (string), value (string)
+        Returns: Boolean
+    '''       
     def alreadyExists(self,table,col,value):
         with self.conn:
             cur = self.conn.cursor()

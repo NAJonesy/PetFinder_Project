@@ -2,6 +2,12 @@ from logger import logger
 #from pathlib import Path
 import json
 
+    '''
+        Method: getJsonAttribute
+        Purpose: Get a value from within the given Json
+        Inputs: json (String/Json), attribute (String)
+        Returns: String
+    '''
 def getJsonAttribute(json, attribute):
         if attribute in dict(json):
             try:
@@ -21,6 +27,12 @@ def getJsonAttribute(json, attribute):
         else:
             logger.detail.warning("Attribute '{0}' not found in JSON.\n{1}".format(attribute,json))
 
+    '''
+        Method: getMailingAddress
+        Purpose: Format the given values into a clean address
+        Inputs: address (String), city (String), State (string), zip (String/int)
+        Returns: String
+    '''
 def getMailingAddress(address,city,state,zip):
         if(address != "No value given."):
             address = address + "\n"
